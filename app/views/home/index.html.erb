@@ -1,0 +1,7 @@
+<header class="flex flex-row">
+        <div>
+            <%=link_to "Регистрация", new_user_path, class: "font-semibold text-indigo-600 hover:text-indigo-500"%>
+            <%=link_to "Войти", new_session_path, class: "font-semibold text-indigo-600 hover:text-indigo-500"%>
+        </div>
+        <%=link_to "Выйти", session_path, data: { turbo_method: :delete }, class: "font-semibold text-indigo-600 hover:text-indigo-500"%>
+</header>
