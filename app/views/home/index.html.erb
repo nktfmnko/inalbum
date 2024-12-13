@@ -1,4 +1,4 @@
-<nav class="bg-gray-800">
+<nav class="bg-gray-800 ">
   <div class="mx-auto max-w-full px-2 sm:px-6 lg:px-8">
     <div class="relative flex h-16 items-center justify-between">
       <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
@@ -7,8 +7,8 @@
         </div>
         <%if user_signed_in?%>
         <div class="hidden sm:ml-6 sm:block">
-          <div class="flex space-x-4">
-            <a href="#" class="rounded-md px-3 py-2 font-semibold text-gray-300 hover:bg-gray-700 hover:text-white">Новый пост</a>            
+          <div class="flex space-x-4">        
+            <%=link_to "Новый пост", new_post_path, class: "font-semibold text-white hover:text-gray-300 mr-10"%>            
           </div>
         </div>
         <%end%>
@@ -19,9 +19,7 @@
         <% if user_signed_in? %>
         <div class="relative ml-3" id="dropdownButton">
           <div>
-            <button type="button" class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" onclick="toggleDropdown()">
-              <span class="absolute -inset-1.5"></span>
-              <span class="sr-only">Open user menu</span>
+            <button type="button" class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" onclick="toggleDropdown()">        
               <img class="size-8 rounded-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtRs_rWILOMx5-v3aXwJu7LWUhnPceiKvvDg&s" alt="">
               <div class="text-white font-semibold mt-1 ml-1">
                 <%=current_user.name%>
@@ -43,8 +41,22 @@
       </div>
     </div>
   </div>
-  
 </nav>
+<div class="flex flex-wrap -mx-4 ml-4 mr-4">
+  <% @posts.each do |post| %>
+    <div class="w-full sm:w-1/2 lg:w-1/5 p-4">
+      <div class="bg-white rounded-lg shadow-lg hover:bg-gray-200 transition duration-300">
+        <% if post.image.attached? %>
+          <%= image_tag post.image, class: "rounded-t-lg w-full h-48 object-cover" %>
+        <% end %>
+        <div class="p-4">
+          <h2 class="text-lg font-semibold"><%= post.title %></h2>        
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {

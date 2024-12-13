@@ -2,7 +2,7 @@ require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
-
+  config.active_storage.variant_processor = :mini_magick
   # Make code changes take effect immediately without server restart.
   config.enable_reloading = true
 
@@ -54,6 +54,7 @@ Rails.application.configure do
 
   # Highlight code that enqueued background job in logs.
   config.active_job.verbose_enqueue_logs = true
+  config.active_job.queue_adapter = :sidekiq
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
