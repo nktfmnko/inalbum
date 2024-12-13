@@ -45,17 +45,38 @@
 <div class="flex flex-wrap -mx-4 ml-4 mr-4">
   <% @posts.each do |post| %>
     <div class="w-full sm:w-1/2 lg:w-1/5 p-4">
-      <div class="bg-white rounded-lg shadow-lg hover:bg-gray-200 transition duration-300">
+      <div onclick="showDialog('<%= j post.title%>', '<%= j post.body%>', '<%= j post.tags%>', '<%= j post.user.name%>', '<%= j url_for(post.image)%>')" class="bg-white rounded-lg shadow-lg hover:bg-gray-200 transition duration-300">
         <% if post.image.attached? %>
           <%= image_tag post.image, class: "rounded-t-lg w-full h-48 object-cover" %>
         <% end %>
         <div class="p-4">
-          <h2 class="text-lg font-semibold"><%= post.title %></h2>        
+          <h2 class="text-lg font-semibold truncate"><%= post.title %></h2>        
         </div>
       </div>
     </div>
   <% end %>
 </div>
+
+<div id="dialog" class="fixed left-0 top-0 bg-slate-900 bg-opacity-50 w-full h-full justify-center items-center opacity-0 hidden transition-opacity duration-500">
+  <div class="bg-white rounded shadow-md p-8 w-[50%] h-fit flex">
+    <div class="w-1/2 flex items-center"><img id="dialog-image"/></div>
+    <div class="p-4 w-1/2 flex flex-col justify-between">
+      <div>
+        <h2 id="dialog-title" class="text-xl font-semibold break-words"></h2>
+        <h2 id="dialog-body" class="text-xl font-semibold"></h2>
+        <h2 id="dialog-tags" class="text-xl font-semibold"></h2>
+      </div>
+      <h2 id="dialog-user" class="text-xl font-semibold"></h2>
+    </div>
+    <div>
+        <button onclick="hideDialog()">
+        
+          Закрыть
+        
+        </button>
+  </div>
+</div>
+
 
 
 <script>
@@ -78,4 +99,35 @@
             }
         });
     });
+</script>
+
+<script>
+  function showDialog(title, body, tags, user, imageUrl){
+    let dialog = document.getElementById('dialog');
+    let dialogTitle = document.getElementById('dialog-title');
+    let dialogBody = document.getElementById('dialog-body');
+    let dialogTags = document.getElementById('dialog-tags');
+    let dialogUser = document.getElementById('dialog-user');
+    let dialogImage = document.getElementById('dialog-image');
+    dialogTitle.textContent = title;
+    dialogBody.textContent = body;
+    dialogTags.textContent = tags;
+    dialogUser.textContent = user;
+    dialogImage.src = imageUrl;
+    dialog.classList.remove('hidden');
+    dialog.classList.add('flex');
+
+    setTimeout(() => {
+      dialog.classList.add('opacity-100');  
+    }, 20);
+  }
+  function hideDialog(){
+    let dialog = document.getElementById('dialog');
+    dialog.classList.add('opacity-0'); 
+    dialog.classList.remove('opacity-100');   
+    setTimeout(() => {
+      dialog.classList.add('hidden');
+      dialog.classList.remove('flex');
+    }, 500);
+  }
 </script>
