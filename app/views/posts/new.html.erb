@@ -4,7 +4,7 @@
   </div>
 
   <%= form_with model: @post do |f| %>
-    <div class="mt-10 flex sm:mx-auto sm:w-full sm:max-w-2xl">
+     <div class="mt-10 flex sm:mx-auto sm:w-full sm:max-w-2xl h-80">
       <%= render partial: "image_preview", locals: {f: f, post: @post}%>
       <div class="flex-grow">
         <div>

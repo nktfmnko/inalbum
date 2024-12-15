@@ -67,3 +67,6 @@ group :test do
 end
 
 gem "tailwindcss-rails", "~> 3.0"
+
+gem 'requestjs-rails'
+gem 'ransack'
