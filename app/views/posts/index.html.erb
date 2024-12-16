@@ -14,7 +14,7 @@
         <%end%>
       </div>
       <%= search_form_for @q do |f| %>    
-        <%= f.search_field :tags_cont %>
+        <%= f.search_field :tags_cont, class:"bg-slate-600 text-white" %>
         <%= f.submit "Поиск", class:"text-white mr-3"%>
       <% end %>
       <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
@@ -31,8 +31,8 @@
             </button>
           </div>
           
-          <div id="dropdown" class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none hidden" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Профиль</a>            
+          <div id="dropdown" class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none hidden" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">          
+            <%=link_to "Профиль", user_path(current_user), class:"block px-4 py-2 text-sm text-gray-700"%>          
             <%=button_to "Выйти", session_path, method: :delete, class:"block px-4 py-2 text-sm text-gray-700"%>             
           </div>
         </div>
@@ -50,7 +50,7 @@
 <div class="flex flex-wrap -mx-4 ml-20 mr-20">
   <% @posts.each do |post| %>
     <div class="w-full sm:w-1/2 lg:w-1/3 p-4">
-      <div onclick="showDialog('<%= j post.title%>', '<%= j post.body%>', '<%= j post.tags%>', '<%= j post.user.name%>', '<%= j url_for(post.image)%>')" class="bg-white rounded-lg shadow-lg hover:bg-gray-200 transition duration-300">
+      <div onclick="showDialog('<%= j post.title%>', '<%= j post.body%>', '<%= j post.tags%>','<%= j post.user.name %>', '<%= j url_for(post.image)%>',  '<%= j post.user.id%>')" class="bg-white rounded-lg shadow-lg hover:bg-gray-200 transition duration-300">
         <% if post.image.attached? %>
           <%= image_tag post.image, class: "rounded-t-lg w-full h-64 object-cover" %>
         <% end %>
@@ -71,25 +71,30 @@
         <h2 id="dialog-body" class="text-xl font-semibold"></h2>
         <h3 id="dialog-tags" class="text-l font-semibold"></h3>
       </div>
-      <h2 id="dialog-user" class="text-l font-semibold"></h2>
+      
+        <a id = "dialog-user-link" href="#">
+          <h2 id="dialog-user" class="text-l font-semibold"></h2>
+        </a>
+      
     </div>
     <div>
-        <button onclick="hideDialog()">
-        
-          Закрыть
-        
-        </button>
+        <button onclick="hideDialog()" class="flex items-center justify-center w-10 h-10 bg-transparent border-0 rounded-full hover:bg-gray-200 focus:outline-none">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+    </svg>
+</button>
   </div>
 </div>
 
 <script>
-  function showDialog(title, body, tags, user, imageUrl){
+  function showDialog(title, body, tags, user, imageUrl, userId){
     let dialog = document.getElementById('dialog');
     let dialogTitle = document.getElementById('dialog-title');
     let dialogBody = document.getElementById('dialog-body');
     let dialogTags = document.getElementById('dialog-tags');
     let dialogUser = document.getElementById('dialog-user');
     let dialogImage = document.getElementById('dialog-image');
+    document.getElementById('dialog-user-link').href = `/u/${userId}`;
     dialogTitle.textContent = title;
     dialogBody.textContent = body;
     dialogTags.textContent = tags;
