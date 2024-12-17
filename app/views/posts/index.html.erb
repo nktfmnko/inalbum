@@ -33,7 +33,7 @@
           
           <div id="dropdown" class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none hidden" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">          
             <%=link_to "Профиль", user_path(current_user), class:"block px-4 py-2 text-sm text-gray-700"%>          
-            <%=button_to "Выйти", session_path, method: :delete, class:"block px-4 py-2 text-sm text-gray-700"%>             
+            <%=button_to "Выйти",  session_path, method: :delete, class:"block px-4 py-2 text-sm text-gray-700"%>
           </div>
         </div>
         <%else%>
@@ -89,17 +89,13 @@
 <script>
   function showDialog(title, body, tags, user, imageUrl, userId){
     let dialog = document.getElementById('dialog');
-    let dialogTitle = document.getElementById('dialog-title');
-    let dialogBody = document.getElementById('dialog-body');
-    let dialogTags = document.getElementById('dialog-tags');
-    let dialogUser = document.getElementById('dialog-user');
-    let dialogImage = document.getElementById('dialog-image');
+    document.getElementById('dialog-title').textContent = title;
+    document.getElementById('dialog-body').textContent = body;
+    document.getElementById('dialog-tags').textContent = tags;
+    document.getElementById('dialog-user').textContent = user;
+    document.getElementById('dialog-image').src = imageUrl;
     document.getElementById('dialog-user-link').href = `/u/${userId}`;
-    dialogTitle.textContent = title;
-    dialogBody.textContent = body;
-    dialogTags.textContent = tags;
-    dialogUser.textContent = user;
-    dialogImage.src = imageUrl;
+  
     dialog.classList.remove('hidden');
     dialog.classList.add('flex');
 

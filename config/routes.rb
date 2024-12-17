@@ -12,6 +12,6 @@ Rails.application.routes.draw do
   root "posts#index"
   resources :users,  only: %i[new create]
   get '/u/:id', to: 'users#profile', as: 'user'
-  resources :posts
+  resources :posts, only: %i[new create destroy]
   resource :session, only: %i[new create destroy]
 end

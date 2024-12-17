@@ -5,21 +5,92 @@
             <h1 class="text-6xl"><%= @user.name%></h1>
         </div>
         <h6>
-            <%= "Сделано постов: #{@user.posts.size}"%>
+            <%= "Всего постов: #{@user.posts.size}"%>
         </h6>
     </div>
     <div class="flex flex-wrap -mx-4 ml-20 mr-20">
     <% @posts.each do |post| %>
         <div class="w-full sm:w-1/2 lg:w-1/3 p-4">
-            <div onclick="showDialog('<%= j post.title%>', '<%= j post.body%>', '<%= j post.tags%>', '<%= j post.user.name%>', '<%= j url_for(post.image)%>')" class="bg-white rounded-lg shadow-lg hover:bg-gray-200 transition duration-300">
+            <div onclick="showDialog('<%= j post.title%>', '<%= j post.body%>', '<%= j post.tags%>', '<%= j post.user.name%>', '<%= j url_for(post.image)%>', <%= j post.id %>)" class="bg-white rounded-lg shadow-lg hover:bg-gray-200 transition duration-300">
                 <% if post.image.attached? %>
                     <%= image_tag post.image, class: "rounded-t-lg w-full h-64 object-cover" %>
                 <% end %>
-            <div class="p-4">
-                <h2 class="text-lg font-semibold truncate"><%= post.title %></h2>        
+            <div class="items-center p-4">
+              <div>
+                  <h2 class="text-lg font-semibold truncate"><%= post.title %></h2>        
+              </div>
+              <div id="delete-post">
+                <%if current_user.present? && current_user.id == @user.id%>              
+                    <%=button_to "Удалить", post_path(post), method: :delete, form: {data: {turbo_confirm: 'Вы уверены, что хотите удалить пост?'}} ,class:"text-base text-red-700"%>              
+                <%end%>
+              </div>
             </div>
         </div>
         </div>
     <% end %>
     </div>
 </div>
+
+<div id="dialog" class="fixed left-0 top-0 bg-slate-900 bg-opacity-50 w-full h-full justify-center items-center opacity-0 hidden transition-opacity duration-500">
+  <div class="bg-white rounded shadow-md p-8 w-[50%] h-fit flex flex-col relative">
+    <div class="absolute top-4 right-4">
+      <button onclick="hideDialog()" class="flex items-center justify-center w-10 h-10 bg-transparent border-0 rounded-full hover:bg-gray-200 focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="w-full flex">
+      <div class="w-4/6 flex items-center"><img id="dialog-image"/></div>
+      <div class="p-4 w-2/6 flex flex-col justify-between">
+        <div>
+          <h1 id="dialog-title" class="text-2xl font-semibold break-words"></h1>
+          <h2 id="dialog-body" class="text-xl font-semibold"></h2>
+          <h3 id="dialog-tags" class="text-l font-semibold"></h3>
+        </div>        
+        <h2 id="dialog-user" class="text-l font-semibold"></h2>      
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+  function showDialog(title, body, tags, user, imageUrl){
+    let dialog = document.getElementById('dialog');
+    document.getElementById('dialog-title').textContent = title;
+    document.getElementById('dialog-body').textContent = body;
+    document.getElementById('dialog-tags').textContent = tags;
+    document.getElementById('dialog-user').textContent = user;
+    document.getElementById('dialog-image').src = imageUrl;
+    
+    dialog.classList.remove('hidden');
+    dialog.classList.add('flex');
+    
+
+    setTimeout(() => {
+      dialog.classList.add('opacity-100');  
+    }, 20);
+  }
+  function hideDialog(){
+    let dialog = document.getElementById('dialog');
+    dialog.classList.add('opacity-0'); 
+    dialog.classList.remove('opacity-100');   
+    setTimeout(() => {
+      dialog.classList.add('hidden');
+      dialog.classList.remove('flex');
+    }, 500);
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+  const deleteLinks = document.querySelectorAll('#delete-post');
+
+  deleteLinks.forEach(link => {
+    link.addEventListener('click', function(event) {
+      event.stopPropagation();
+    });
+  });
+});
+</script>
