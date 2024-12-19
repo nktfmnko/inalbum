@@ -2,11 +2,8 @@ class PostsController < ApplicationController
   before_action :authenticate_user!, only: %i[new create]
   before_action :set_post, only: %i[destroy]
   def index
-    @posts = Post.all
-
     @q = Post.ransack(params[:q])
     @posts = @q.result(distinct: true)
-    
   end
 
   def new

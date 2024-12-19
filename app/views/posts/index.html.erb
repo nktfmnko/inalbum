@@ -7,7 +7,7 @@
         </div>
         <%if user_signed_in?%>
         <div class="hidden sm:ml-6 sm:block">
-          <div class="flex space-x-4">        
+          <div class="flex space-x-4 mt-1">        
             <%=link_to "Новый пост", new_post_path, class: "font-semibold text-white hover:text-gray-300 mr-10"%>            
           </div>
         </div>
@@ -64,16 +64,16 @@
 
 <div id="dialog" class="fixed left-0 top-0 bg-slate-900 bg-opacity-50 w-full h-full justify-center items-center opacity-0 hidden transition-opacity duration-500">
   <div class="bg-white rounded shadow-md p-8 w-[50%] h-fit flex">
-    <div class="w-4/6 flex items-center"><img id="dialog-image"/></div>
+    <div class="w-4/6 flex items-center"><img id="dialog-image" class="max-h-full"/></div>
     <div class="p-4 w-2/6 flex flex-col justify-between">
       <div>
         <h1 id="dialog-title" class="text-2xl font-semibold break-words"></h1>
-        <h2 id="dialog-body" class="text-xl font-semibold"></h2>
-        <h3 id="dialog-tags" class="text-l font-semibold"></h3>
+        <h2 id="dialog-body" class="text-xl font-semibold break-words"></h2>
+        <h3 id="dialog-tags" class="text-l font-semibold break-words"></h3>
       </div>
       
         <a id = "dialog-user-link" href="#">
-          <h2 id="dialog-user" class="text-l font-semibold"></h2>
+          <h2 id="dialog-user" class="text-l font-semibold break-words"></h2>
         </a>
       
     </div>
