@@ -11,7 +11,9 @@ Rails.application.routes.draw do
 
   root "posts#index"
   resources :users,  only: %i[new create]
-  get '/u/:id', to: 'users#profile', as: 'user'
   resources :posts
   resource :session, only: %i[new create destroy]
+  get '/u/:id', to: 'users#profile', as: 'user'
+  match "/404", to: 'errors#not_found',  via: :all
+
 end
