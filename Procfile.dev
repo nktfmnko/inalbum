@@ -2,3 +2,4 @@ web: rails server
 js: yarn build --watch
 css: yarn build:css --watch
 css: rails tailwindcss:watch
+worker: bundle exec sidekiq
